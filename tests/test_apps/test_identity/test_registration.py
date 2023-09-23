@@ -4,17 +4,27 @@ import pytest
 from django.test import Client
 from django.urls import reverse
 
-from tests.plugins.identity.user import (
+from plugins.identity.user import (
     RegistrationData,
+    RegistrationDataFactory,
     UserAssertion,
     UserDataExtractor,
 )
+
+
+@pytest.fixture()
+def registration_data(
+    registration_data_factory: RegistrationDataFactory,
+) -> RegistrationData:
+    """Create instance of ordinary user (not staff or admin)."""
+    return registration_data_factory()
 
 
 @pytest.mark.parametrize('page', [
     '/identity/login',
     '/identity/registration',
 ])
+@pytest.mark.django_db()
 def test_identity_pages_unauthenticated(client: Client, page: str) -> None:
     """Test accessibility of identity pages for unauthenticated users."""
     response = client.get(page)
@@ -33,6 +43,7 @@ def test_pictures_pages_unauthenticated(client: Client, page: str) -> None:
     assert response.url == '/identity/login?next={0}'.format(page)
 
 
+@pytest.mark.django_db()
 def test_valid_registration(
     client: Client,
     registration_data: RegistrationData,
