@@ -99,14 +99,6 @@ def registration_data_factory(
     return factory
 
 
-@pytest.fixture()
-def user_registration_data(
-    registration_data_factory: RegistrationDataFactory,
-) -> RegistrationData:
-    """Create instance of ordinary user (not staff or admin)."""
-    return registration_data_factory()
-
-
 @final
 class LoginData(TypedDict, total=False):
     """Represent the login data that is required to authenticate a user."""
