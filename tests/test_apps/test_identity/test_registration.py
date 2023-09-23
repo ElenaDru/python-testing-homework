@@ -14,10 +14,11 @@ from plugins.identity.user import (
 
 @pytest.fixture()
 def registration_data(
-        registration_data_factory: RegistrationDataFactory,
+    registration_data_factory: RegistrationDataFactory,
 ) -> RegistrationData:
     """Create instance of ordinary user (not staff or admin)."""
     return registration_data_factory()
+
 
 @pytest.mark.parametrize('page', [
     '/identity/login',
